@@ -1,0 +1,11 @@
+# npm
+node_modules
+
+# Environment variables
+.env*
+
+#build output directory
+dist/
+
+#TypeScript build info files
+tsconfig.tsbuildinfo
