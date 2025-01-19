@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AppError } from "../utils/appError";
+import config from "../config";
 
 export const authMiddleware = async (
   req: Request,
@@ -14,12 +15,11 @@ export const authMiddleware = async (
       throw new AppError(401, "Authentication token is required");
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "");
+    const decoded = jwt.verify(token, config.jwt.accessTokenSecret || "");
     req.user = decoded;
 
     next();
   } catch (error) {
-    // return res.status(401).json({ message: "Invalid or expired token" });
     next(error);
   }
 };

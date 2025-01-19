@@ -7,6 +7,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 const router = Router();
 const authController = new AuthController();
+
 /**
  * @swagger
  * /google/url:
@@ -17,7 +18,9 @@ const authController = new AuthController();
  *       302:
  *         description: Redirect to Google authentication page
  */
+
 router.get("/google/url", authController.getGoogleAuthURL.bind(authController));
+
 /**
  * @swagger
  * /google/callback:

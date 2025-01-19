@@ -36,4 +36,7 @@ export class AppError extends Error {
   static internalError(msg: string): AppError {
     return new AppError(500, msg || "Internal Server Error");
   }
+  static rateLimit(msg: string): AppError {
+    return new AppError(429, msg || "Rate limit exceeded");
+  }
 }

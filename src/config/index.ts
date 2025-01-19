@@ -30,4 +30,5 @@ export default {
     nodeEnv: process.env.NODE_ENV || "development",
   },
   env: process.env.NODE_ENV,
+  domainName: process.env.DOMAIN_NAME,
 };

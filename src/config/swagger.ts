@@ -7,9 +7,10 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API Documentation",
+      title: "API Documentation for Advanced URL Shortener app",
       version: "1.0.0",
-      description: "API Documentation with Bearer Token",
+      description:
+        "API Documentation with Bearer Token and with Comprehensive Analytics, Custom Aliases, and Rate Limiting",
     },
     components: {
       securitySchemes: {

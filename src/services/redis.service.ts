@@ -43,4 +43,17 @@ export class RedisService {
   async getURL(shortCode: string): Promise<any> {
     return this.get(`url:${shortCode}`);
   }
+
+  async setRateLimit(
+    userId: string,
+    count: number,
+    ttl: number
+  ): Promise<void> {
+    await this.set(`ratelimit:${userId}`, count, ttl);
+  }
+
+  async getRateLimit(userId: string): Promise<number> {
+    const count = await this.get(`ratelimit:${userId}`);
+    return count ? parseInt(count, 10) : 0;
+  }
 }

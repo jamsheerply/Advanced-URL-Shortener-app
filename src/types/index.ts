@@ -32,7 +32,7 @@ export interface URL {
   _id: string;
   userId: string;
   longUrl: string;
-  shortCode: string;
+  // shortCode: string;
   customAlias?: string;
   topic?: string;
   createdAt: Date;
