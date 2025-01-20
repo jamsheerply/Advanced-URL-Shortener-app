@@ -1,9 +1,10 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./routes/auth.routers";
 import urlRoutes from "./routes/url.routes";
+import analyticsRoutes from "./routes/analytics.routers";
 import config from "./config";
 import setupSwagger from "./config/swagger";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
@@ -21,6 +22,7 @@ app.use(requestIp.mw());
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/shorten", urlRoutes);
+app.use("/api/v1/analytics", analyticsRoutes);
 
 // custom Error handling middleware
 app.use(errorHandler);

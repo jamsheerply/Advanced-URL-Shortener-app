@@ -28,7 +28,7 @@ export class AuthController {
       // Get tokens from Google
       const { access_token } = await this.authService.getGoogleTokens(code);
 
-      console.log(access_token);
+      console.log("access_token", access_token);
 
       // Get user profile
       const googleUser = await this.authService.getGoogleUser(access_token);

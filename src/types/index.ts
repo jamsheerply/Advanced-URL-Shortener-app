@@ -32,7 +32,6 @@ export interface URL {
   _id: string;
   userId: string;
   longUrl: string;
-  // shortCode: string;
   customAlias?: string;
   topic?: string;
   createdAt: Date;
@@ -46,17 +45,34 @@ export interface Analytics {
   urlId: string;
   timestamp: Date;
   ipAddress: string;
-  userAgent: string;
   device: {
     type: string;
     os: string;
-    browser: string;
   };
   location: {
     country: string;
     city: string;
     coordinates: [number, number];
   };
+}
+
+export interface AnalyticsResponse {
+  totalClicks: number;
+  uniqueUsers: number;
+  clicksByDate: Array<{
+    date: string;
+    clicks: number;
+  }>;
+  osType: Array<{
+    osName: string;
+    uniqueClicks: number;
+    uniqueUsers: number;
+  }>;
+  deviceType: Array<{
+    deviceName: string;
+    uniqueClicks: number;
+    uniqueUsers: number;
+  }>;
 }
 
 export * from "./custom";

@@ -47,12 +47,7 @@ export class URLService {
     });
 
     // Cache the new URL
-    await this.redis.setURL(shortCode, {
-      longUrl,
-      userId,
-      customAlias: shortCode,
-      isActive: true,
-    });
+    await this.redis.setURL(shortCode, url);
 
     // Construct the shortUrl
     const shortUrl = `${config.domainName}/api/v1/shorten/${shortCode}`;
@@ -69,11 +64,23 @@ export class URLService {
     if (cachedUrl) return cachedUrl;
 
     // Get from database
-    const url = await URLModel.findOne({ shortCode, isActive: true });
+    const url = await URLModel.findOne({
+      customAlias: shortCode,
+      isActive: true,
+    });
     if (url) {
       await this.redis.setURL(shortCode, url);
     }
 
     return url;
+  }
+
+  async getURLsByUserId(userId: string) {
+    try {
+      const urls = await URLModel.find({ userId }); // Assuming the URL model stores `userId`
+      return urls;
+    } catch (error) {
+      throw new Error("Error retrieving URLs: ");
+    }
   }
 }

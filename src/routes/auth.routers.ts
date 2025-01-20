@@ -10,7 +10,7 @@ const authController = new AuthController();
 
 /**
  * @swagger
- * /google/url:
+ * /api/v1/google/url:
  *   get:
  *     summary: Get Google authentication URL
  *     description: Returns the Google OAuth authentication URL.
@@ -23,7 +23,7 @@ router.get("/google/url", authController.getGoogleAuthURL.bind(authController));
 
 /**
  * @swagger
- * /google/callback:
+ * /api/v1/google/callback:
  *   get:
  *     summary: Google OAuth callback
  *     description: Handles the Google OAuth callback and retrieves user information.
@@ -49,7 +49,7 @@ router.get(
 
 /**
  * @swagger
- * /refresh-token:
+ * /api/v1/refresh-token:
  *   post:
  *     summary: Refresh JWT token
  *     description: Refreshes the user's JWT token using the provided refresh token.
@@ -66,7 +66,7 @@ router.post(
 
 /**
  * @swagger
- * /logout:
+ * /api/v1/logout:
  *   post:
  *     summary: Log out the user
  *     description: Logs out the user by invalidating the refresh token and clearing cookies.

@@ -48,17 +48,16 @@ export class URLController {
         throw new AppError(404, "URL not found");
       }
 
-      if (!req.ip) {
-        throw new AppError(400, "IP address not found");
-      }
-
       const clientIp = requestIp.getClientIp(req) || "127.0.0.1";
-      console.log("Client IP:", clientIp);
+      const normalizedClientIp =
+        clientIp === "::1" || clientIp.startsWith("::ffff:127.")
+          ? "127.0.0.1"
+          : clientIp;
 
       // Track analytics
       await this.analyticsService.trackClick(
-        url.userId,
-        req.ip,
+        url._id,
+        normalizedClientIp,
         req.headers["user-agent"] || "unknown"
       );
 

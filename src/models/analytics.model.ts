@@ -5,11 +5,9 @@ const analyticsSchema = new Schema({
   urlId: { type: Schema.Types.ObjectId, ref: "URL", required: true },
   timestamp: { type: Date, default: Date.now },
   ipAddress: { type: String },
-  userAgent: { type: String },
   device: {
-    type: { type: String },
-    os: { type: String },
-    browser: { type: String },
+    type: { type: String }, //(e.g., mobile, desktop).
+    os: { type: String }, //(e.g., Windows, macOS, Linux, iOS, Android)
   },
   location: {
     country: { type: String },
