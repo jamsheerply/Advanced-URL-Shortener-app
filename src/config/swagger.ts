@@ -30,13 +30,13 @@ const options = {
   },
   apis:
     config.env === "production"
-      ? ["./dist/routes/*.js"]
-      : ["./src/routes/*.ts"],
+      ? ["./dist/swagger/*.js"]
+      : ["./src/swagger/*.ts"],
 };
 
 console.log(
   `Swagger docs path: ${
-    config.env === "production" ? "./dist/routes/*.js" : "./src/routes/*.ts"
+    config.env === "production" ? "./dist/swagger/*.js" : "./src/swagger/*.ts"
   }`
 );
 
