@@ -9,14 +9,12 @@ export const errorHandler = (
 ): void => {
   console.error(err);
 
-  // Handle custom AppError
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       message: err.message,
       success: false,
     });
   } else {
-    // Handle general errors
     res.status(500).json({
       message: "Something went wrong",
       success: false,

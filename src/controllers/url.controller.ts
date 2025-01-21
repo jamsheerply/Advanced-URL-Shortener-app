@@ -1,4 +1,5 @@
-import { NextFunction, Request, Response } from "express";
+// src/controllers/url.controller.ts
+import { Request, Response, NextFunction } from "express";
 import { URLService } from "../services/url.service";
 import { AppError } from "../utils/appError";
 import { AnalyticsService } from "../services/analytics.service";
@@ -16,6 +17,7 @@ export class URLController {
   async createShortUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const { longUrl, customAlias, topic } = req.body;
+      console.log("Request body:", req.body); // Debugging statement
       if (!req.user || !req.user.id) {
         throw new AppError(401, "Unauthorized");
       }
@@ -29,6 +31,7 @@ export class URLController {
       );
       res.status(201).json(url);
     } catch (error) {
+      console.error("Error in createShortUrl:", error); // Debugging statement
       next(error);
     }
   }
@@ -36,9 +39,8 @@ export class URLController {
   async redirectUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const { shortCode } = req.params;
-
+      console.log("Request params:", req.params); // Debugging statement
       if (typeof shortCode !== "string") {
-        // return res.status(400).json({ error: "Invalid short code" });
         throw new AppError(400, "Invalid short code");
       }
 
@@ -54,7 +56,6 @@ export class URLController {
           ? "127.0.0.1"
           : clientIp;
 
-      // Track analytics
       await this.analyticsService.trackClick(
         url._id,
         normalizedClientIp,
@@ -63,6 +64,7 @@ export class URLController {
 
       res.redirect(url.longUrl);
     } catch (error) {
+      console.error("Error in redirectUrl:", error); // Debugging statement
       next(error);
     }
   }

@@ -25,15 +25,12 @@ export class AuthController {
         return res.status(400).json({ error: "Authorization code required" });
       }
 
-      // Get tokens from Google
       const { access_token } = await this.authService.getGoogleTokens(code);
 
-      console.log("access_token", access_token);
+      console.log("access_token _google", access_token);
 
-      // Get user profile
       const googleUser = await this.authService.getGoogleUser(access_token);
 
-      // Find or create user
       let user = await UserModel.findOne({ googleId: googleUser.id });
       if (!user) {
         user = await UserModel.create({
@@ -42,18 +39,16 @@ export class AuthController {
         });
       }
 
-      // Generate JWT tokens
       const tokens = await this.authService.generateTokens(
         user._id.toString(),
         user.email
       );
 
-      // Set refresh token in HTTP-only cookie
       res.cookie("refreshToken", tokens.refreshToken, {
         httpOnly: true,
         secure: config.env === "production",
         sameSite: "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.json({
@@ -77,7 +72,6 @@ export class AuthController {
 
       const tokens = await this.authService.refreshToken(refreshToken);
 
-      // Set new refresh token in cookie
       res.cookie("refreshToken", tokens.refreshToken, {
         httpOnly: true,
         secure: config.env === "production",

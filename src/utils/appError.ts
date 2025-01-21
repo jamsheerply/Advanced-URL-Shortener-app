@@ -1,5 +1,3 @@
-// src/utils/appError.ts
-
 export class AppError extends Error {
   public statusCode: number;
   public success: boolean;
@@ -9,7 +7,6 @@ export class AppError extends Error {
     this.statusCode = statusCode;
     this.success = false;
 
-    // Set the prototype explicitly to support instanceof
     Object.setPrototypeOf(this, AppError.prototype);
   }
 

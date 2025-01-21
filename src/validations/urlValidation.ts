@@ -1,4 +1,3 @@
-// validation/urlValidation.ts
 import Joi from "joi";
 
 export const createShortUrlSchema = Joi.object({

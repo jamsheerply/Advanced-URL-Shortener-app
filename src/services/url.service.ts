@@ -23,53 +23,58 @@ export class URLService {
     customAlias?: string,
     topic?: string
   ): Promise<{ shortUrl: string; createdAt: Date }> {
-    const shortCode = customAlias || this.nanoid();
+    const alias = customAlias || this.nanoid();
+    console.log(`Generating customAlias: ${alias}`);
 
-    // Check cache first
-    const existingUrlInCache = await this.redis.getURL(shortCode);
-    if (existingUrlInCache)
-      throw new AppError(409, "URL already exists in cache");
+    if (!alias) {
+      throw new AppError(400, "Invalid custom alias");
+    }
 
-    // Check database if not found in cache
+    const existingUrlInCache = await this.redis.getURL(alias);
+    if (existingUrlInCache) {
+      throw new AppError(
+        409,
+        `URL with alias '${alias}' already exists in cache`
+      );
+    }
+
     const existingUrlInDatabase = await URLModel.findOne({
-      customAlias: shortCode,
+      customAlias: alias,
     });
-    if (existingUrlInDatabase)
-      throw new AppError(409, "URL already exists in database");
+    if (existingUrlInDatabase) {
+      throw new AppError(
+        409,
+        `URL with alias '${alias}' already exists in database`
+      );
+    }
 
-    // Create URL
     const url = await URLModel.create({
       userId,
       longUrl,
-      customAlias: shortCode,
-      topic,
+      customAlias: alias,
+      topic: topic || "default",
       isActive: true,
     });
 
-    // Cache the new URL
-    await this.redis.setURL(shortCode, url);
-
-    // Construct the shortUrl
-    const shortUrl = `${config.domainName}/api/v1/shorten/${shortCode}`;
+    await this.redis.setURL(alias, url);
 
     return {
-      shortUrl,
+      shortUrl: `${config.domainName}/api/v1/shorten/${alias}`,
       createdAt: url.createdAt,
     };
   }
 
-  async getURL(shortCode: string): Promise<URL | null> {
-    // Check cache first
-    const cachedUrl = await this.redis.getURL(shortCode);
+  async getURL(alias: string): Promise<URL | null> {
+    const cachedUrl = await this.redis.getURL(alias);
     if (cachedUrl) return cachedUrl;
 
-    // Get from database
     const url = await URLModel.findOne({
-      customAlias: shortCode,
+      customAlias: alias,
       isActive: true,
     });
+
     if (url) {
-      await this.redis.setURL(shortCode, url);
+      await this.redis.setURL(alias, url);
     }
 
     return url;
@@ -77,10 +82,10 @@ export class URLService {
 
   async getURLsByUserId(userId: string) {
     try {
-      const urls = await URLModel.find({ userId }); // Assuming the URL model stores `userId`
+      const urls = await URLModel.find({ userId });
       return urls;
     } catch (error) {
-      throw new Error("Error retrieving URLs: ");
+      throw new Error("Error retrieving URLs");
     }
   }
 }

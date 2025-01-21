@@ -82,12 +82,11 @@ export class AuthService {
       expiresIn: config.jwt.refreshTokenExpiry,
     });
 
-    // Store refresh token in Redis
     await this.redis.set(
       `refresh_token:${userId}`,
       refreshToken,
       7 * 24 * 60 * 60
-    ); // 7 days
+    );
 
     return { accessToken, refreshToken };
   }
@@ -111,13 +110,11 @@ export class AuthService {
         config.jwt.refreshTokenSecret
       ) as TokenPayload;
 
-      // Verify refresh token in Redis
       const storedToken = await this.redis.get(`refresh_token:${decoded.id}`);
       if (!storedToken || storedToken !== refreshToken) {
         throw new AppError(401, "Invalid refresh token");
       }
 
-      // Generate new tokens
       return this.generateTokens(decoded.id, decoded.email);
     } catch (error) {
       throw new AppError(401, "Invalid refresh token");

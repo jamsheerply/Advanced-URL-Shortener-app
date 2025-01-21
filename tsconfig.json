@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
+    "target": "ES6", // Consider ESNext if you're using the latest syntax
+    "module": "commonjs", // Ensure compatibility with Node.js
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -10,9 +10,13 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": ["node", "express"]
+    "types": ["node", "jest"], // Remove duplicated "types"
+    "allowSyntheticDefaultImports": true, // Helps with certain ESM modules
+    "resolveJsonModule": true, // In case JSON imports are used
+    "isolatedModules": true // Recommended with ts-jest
   },
-  "include": ["src/**/*", "src/types/**/*"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
   "ts-node": {
     "files": true
   }
