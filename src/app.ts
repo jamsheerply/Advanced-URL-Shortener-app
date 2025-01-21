@@ -22,14 +22,15 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/shorten", urlRoutes);
 app.use("/api/v1/analytics", analyticsRoutes);
 
+console.log("Swagger docs route initialized");
+setupSwagger(app);
+
 app.use(errorHandler);
 
 mongoose
   .connect(config.mongodb.url)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
-
-setupSwagger(app);
 
 const port = config.server.port;
 app.listen(port, () => {

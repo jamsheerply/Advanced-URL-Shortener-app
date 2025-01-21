@@ -12,3 +12,6 @@ tsconfig.tsbuildinfo
 
 #test files
 coverage/
+
+#config file
+manifests/url-shortener-config.yaml

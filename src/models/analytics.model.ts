@@ -12,9 +12,14 @@ const analyticsSchema = new Schema({
   location: {
     country: { type: String },
     city: { type: String },
-    coordinates: { type: [Number], index: "2dsphere" },
+    coordinates: {
+      type: { type: String, enum: ["Point"] },
+      coordinates: { type: [Number], required: true },
+    },
   },
 });
+
+analyticsSchema.index({ "location.coordinates": "2dsphere" });
 
 analyticsSchema.index({ urlId: 1, timestamp: 1 });
 

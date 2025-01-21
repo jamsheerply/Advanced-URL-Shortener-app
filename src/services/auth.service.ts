@@ -1,4 +1,3 @@
-// src/services/auth.service.ts
 import axios from "axios";
 import config from "../config";
 import jwt from "jsonwebtoken";

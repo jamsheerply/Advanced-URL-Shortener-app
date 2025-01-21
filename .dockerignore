@@ -1,8 +1,10 @@
 # npm
+
 node_modules
 
 # Environment variables
-.env*
+
+.env\*
 
 #build output directory
 dist/
@@ -12,3 +14,4 @@ tsconfig.tsbuildinfo
 
 #test files
 coverage/
+jest.config.ts

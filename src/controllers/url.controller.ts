@@ -1,4 +1,3 @@
-// src/controllers/url.controller.ts
 import { Request, Response, NextFunction } from "express";
 import { URLService } from "../services/url.service";
 import { AppError } from "../utils/appError";
@@ -51,6 +50,7 @@ export class URLController {
       }
 
       const clientIp = requestIp.getClientIp(req) || "127.0.0.1";
+
       const normalizedClientIp =
         clientIp === "::1" || clientIp.startsWith("::ffff:127.")
           ? "127.0.0.1"

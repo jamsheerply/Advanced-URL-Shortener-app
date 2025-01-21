@@ -2,6 +2,7 @@ import { Application } from "express";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
+import config from "../config";
 
 const options = {
   definition: {
@@ -27,11 +28,20 @@ const options = {
       },
     ],
   },
-  apis: ["./src/routes/*.ts"],
+  apis:
+    config.env === "production"
+      ? ["./dist/routes/*.js"]
+      : ["./src/routes/*.ts"],
 };
+
+console.log(
+  `Swagger docs path: ${
+    config.env === "production" ? "./dist/routes/*.js" : "./src/routes/*.ts"
+  }`
+);
 
 const specs = swaggerJsdoc(options);
 
 export default (app: Application) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+  app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(specs));
 };

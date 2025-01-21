@@ -46,12 +46,18 @@ export class AnalyticsService {
         ? {
             country: location.country,
             city: location.city,
-            coordinates: location.ll,
+            coordinates: {
+              type: "Point",
+              coordinates: [0, 0],
+            },
           }
         : {
             country: "unknown",
             city: "unknown",
-            coordinates: [0, 0],
+            coordinates: {
+              type: "Point",
+              coordinates: [0, 0],
+            },
           },
     });
   }
